@@ -18,7 +18,35 @@ public class lista9{
         System.out.println("Soma dos dois primeiros elementos de nums1: " + E(nums1));  // Saída esperada: 3
         System.out.println("Soma dos dois primeiros elementos de nums2: " + E(nums2));  // Saída esperada: 5
         System.out.println("Soma dos dois primeiros elementos de nums3: " + E(nums3));  // Saída esperada: 0
+        
+        int[] a1 = {1, 2, 3};
+        int[] b1 = {4, 5, 6};
+        int[] result1 = F(a1, b1);
+        System.out.println("Resultado: [" + result1[0] + ", " + result1[1] + "]");  // Saída esperada: [2, 5]
+
+        int[] a2 = {7, 7, 7};
+        int[] b2 = {3, 8, 0};
+        int[] result2 = F(a2, b2);
+        System.out.println("Resultado: [" + result2[0] + ", " + result2[1] + "]");  // Saída esperada: [7, 8]
+
+        int[] a3 = {5, 2, 9};
+        int[] b3 = {1, 4, 5};
+        int[] result3 = F(a3, b3);
+        System.out.println("Resultado: [" + result3[0] + ", " + result3[1] + "]");  // Saída esperada: [2, 4]
+
+        System.out.println(G(5, 10));  // Saída esperada: 2
+        System.out.println(G(5, 2));   // Saída esperada: 0
+        System.out.println(G(5, 5));   // Saída esperada: 1
+        System.out.println(H(70, false));  // Saída esperada: True
+        System.out.println(H(95, false));  // Saída esperada: False
+        System.out.println(H(95, true));   // Saída esperada: True
+        System.out.println(J(1, false));  // Saída esperada: "07:00"
+        System.out.println(J(5, false));  // Saída esperada: "07:00"
+        System.out.println(J(0, false));  // Saída esperada: "10:00"
+        System.out.println(J(2, true));   // Saída esperada: "10:00"
+        System.out.println(J(0, true));   // Saída esperada: "off"
     }
+
     // # A. first_last6
     // # verifica se 6 é o primeiro ou último elemento da lista nums
     // # first_last6([1, 2, 6]) -> True
@@ -86,7 +114,13 @@ public class lista9{
     // # middle_way([1, 2, 3], [4, 5, 6]) -> [2, 5]
     // # middle_way([7, 7, 7], [3, 8, 0]) -> [7, 8]
     // # middle_way([5, 2, 9], [1, 4, 5]) -> [2, 4]
-    
+    public static int[] F (int[] a, int[] b){
+        // return new int[] {a[a.length/2], b[b.length/2]};
+        int[] lista = new int[2];
+        lista[0] = a[a.length/2];
+        lista[1] = b[b.length/2];
+        return lista;
+    }
 
 
     // # G. date_fashion
@@ -103,6 +137,15 @@ public class lista9{
     // # date_fashion(5, 10) -> 2
     // # date_fashion(5, 2) -> 0
     // # date_fashion(5, 5) -> 1
+    public static int G(int eu, int par){
+        if (eu <= 2 || par <= 2){
+            return 0;
+        }else if (eu >= 8 || par >= 8){
+            return 2;
+        }else{
+            return 1;
+        }
+    }
 
 
     // # H. squirrel_play
@@ -113,7 +156,13 @@ public class lista9{
     // # squirrel_play(70, False) -> True
     // # squirrel_play(95, False) -> False
     // # squirrel_play(95, True) -> True
-
+    public static boolean H(int temperatura, boolean verao){
+        if (verao){
+            return temperatura > 60 && temperatura < 100;
+        }else{
+            return temperatura > 60 && temperatura < 90;
+        }
+    }
 
     // # I. pego_correndo
     // # você foi pego correndo
@@ -128,6 +177,18 @@ public class lista9{
     // # pego_correndo(60, False) -> 0
     // # pego_correndo(65, False) -> 1
     // # pego_correndo(65, True) -> 0 
+    public static int I(int vel, boolean aniv){
+        if (aniv){
+            vel -= 5;
+        }
+        if (vel>60 && vel<=80){
+            return 1;
+        } else if (vel > 80){
+            return 2;
+        }else{
+            return 0;
+        }
+    }
 
 
     // # J. alarm_clock #
@@ -142,5 +203,20 @@ public class lista9{
     // # alarm_clock(1, False) -> '7:00'
     // # alarm_clock(5, False) -> '7:00'
     // # alarm_clock(0, False) -> '10:00'
+    public static String J(int dia, boolean ferias){
+        if (ferias){
+            if (dia == 0 || dia == 6){
+                return "off";
+            }else{
+                return "10:00";
+            }
+        }else{
+            if (dia == 0 || dia == 6){
+                return "10:00";
+            }else{
+                return "07:00";
+            }
+        }
+    }
 
 }
