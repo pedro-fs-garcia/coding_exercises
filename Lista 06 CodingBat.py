@@ -7,9 +7,7 @@
 # você pode ficar dormindo quando é feriado ou não é dia semana
 # retorne True ou False conforme você vá dormir ou não
 def dormir(dia_semana, feriado):
-  if not dia_semana or feriado:
-    return True
-  return False
+  return
 
 # B. alunos_problema
 # temos dois alunos a e b
@@ -17,7 +15,7 @@ def dormir(dia_semana, feriado):
 # temos problemas quando ambos estão sorrindo ou ambos não estão sorrindo
 # retorne True quando houver problemas
 def alunos_problema(a_sorri, b_sorri):
-  return a_sorri == b_sorri
+  return 
 
 # C. soma_dobro
 # dados dois números inteiros retorna sua soma
@@ -25,9 +23,7 @@ def alunos_problema(a_sorri, b_sorri):
 # soma_dobro(1, 2) -> 3
 # soma_dobro(2, 2) -> 8
 def soma_dobro(a, b):
-  if a == b:
-    return 4*a
-  return a + b
+  return
 
 # D. diff21
 # dado um inteiro n retorna a diferença absoluta entre n e 21
@@ -36,9 +32,7 @@ def soma_dobro(a, b):
 # diff21(25) -> 8
 # dica: abs(x) retorna o valor absoluto de x
 def diff21(n):
-  if n > 21:
-    return 2*abs(n - 21)
-  return abs(21 - n)
+  return
 
 # E. papagaio
 # temos um papagaio que fala alto
@@ -46,13 +40,13 @@ def diff21(n):
 # temos problemas se o papagaio estiver falando
 # antes da 7 ou depois das 20
 def papagaio(falando, hora):
-  return falando and not 7 <= hora <= 20
+  return
 
 # F. dez
 # dados dois inteiros a e b
 # retorna True se um dos dois é 10 ou a soma é 10
 def dez(a, b):
-  return a==10 or b==10 or a+b==10
+  return
 
 # G. dista10
 # seja um inteiro n
@@ -62,7 +56,7 @@ def dez(a, b):
 # dista10(90) -> True
 # dista10(89) -> False
 def dista10(n):
-  return abs(n-100) <= 10 or abs(n-200) <= 10
+  return
 
 # H. apaga
 # seja uma string s e um inteiro n
@@ -70,11 +64,7 @@ def dista10(n):
 # apaga('kitten', 1) -> 'ktten'
 # apaga('kitten', 4) -> 'kittn'
 def apaga(s, n):
-  new = ""
-  for i in range(len(s)):
-    if i != n:
-        new += s[i]
-  return new 
+  return
 
 # I. troca
 # seja uma string s
@@ -84,14 +74,7 @@ def apaga(s, n):
 # troca('a') -> 'a'
 # troca('ab') -> 'ba'
 def troca(s):
-  if len(s)<2:
-    return s
-  a = ""
-  a += s[-1]  
-  for i in range(1, len(s)-1):
-    a += s[i]
-  a += s[0]
-  return a
+  return
 
 # Provided simple test() function used in main() to print
 # what each function returns vs. what it's supposed to return.

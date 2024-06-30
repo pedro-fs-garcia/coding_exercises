@@ -14,9 +14,7 @@
 # donuts(5) returns 'Número de donuts: 5'
 # donuts(23) returns 'Número de donuts: muitos'
 def donuts(n):
-  if n >= 10:
-    return "Número de donuts: muitos"
-  return f"Número de donuts: {n}"
+  return
 
 # B. pontas
 # Dada uma string s, retorna uma string com as duas primeiras e as duas
@@ -24,8 +22,7 @@ def donuts(n):
 # Assim 'palmeiras' retorna 'paas'
 # No entanto, se a string tiver menos que 2 letras, retorna uma string vazia
 def pontas(s):
-  if len(s) < 2: return ""
-  return s[:2] + s[-2:]
+  return
 
 # C. fixa_primeiro
 # Dada uma string s, retorna uma string onde todas as ocorrências
@@ -33,9 +30,7 @@ def pontas(s):
 # Assim 'abacate' retorna 'ab*c*te'
 # Dica: use s.replace(stra, strb) 
 def fixa_primeiro(s):
-  prim = s[0]
-  r = s.removeprefix(prim)
-  return f"{prim}{r.replace(prim, '*')}"
+  return
 
 # D. mistura2
 # Sejam duas strings a e b
@@ -44,19 +39,14 @@ def fixa_primeiro(s):
 #   'mix', pod' -> 'pox mid'
 #   'dog', 'dinner' -> 'dig donner'
 def mistura2(a, b):
-  mid_a = a.removeprefix(f"{a[0]}{a[1]}")
-  mid_b = b.removeprefix(f"{b[0]}{b[1]}")
-  new_a = f"{b[0]}{b[1]}{mid_a}"
-  new_b = f"{a[0]}{a[1]}{mid_b}"
-  return f"{new_a} {new_b}"
+  return
 
 # E. palindrome
 # Verifique se uma string é palíndrome
 #   palindrome('asa') True
 #   palindrome('casa') False 
 def palindrome(s):
-  s = s.lower()
-  return s == s[::-1]
+  return
 
 # F. busca
 # Verifique quantas ocorrências de uma palavra há numa frase
@@ -64,11 +54,7 @@ def palindrome(s):
 # palavra = 'ana'
 # busca ('ana e mariana gostam de banana', 'ana') == 4
 def busca(frase, palavra):
-  count = 0
-  for i in range(len(frase)-len(palavra)+1):
-    if frase[i:len(palavra)+i] == palavra:
-      count += 1
-  return count
+  return
 
 # Provided simple test() function used in main() to print
 # what each function returns vs. what it's supposed to return.

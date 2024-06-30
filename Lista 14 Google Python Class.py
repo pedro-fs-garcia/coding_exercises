@@ -10,7 +10,7 @@
 
 # D. Dada uma lista de números retorna uma lista sem os elementos repetidos
 def remove_iguais(nums):
-  return list(set(nums))
+  return
 
 # E. Cripto desafio!!
 # Dada uma frase, você deve retirar todas as letras repetidas das palavras
@@ -20,10 +20,7 @@ def remove_iguais(nums):
 # depois tente ordenar as letras e montar uma string com o resultado.
 # Utilize listas auxiliares se facilitar
 def cripto(frase):
-  words = frase.split(" ")
-  no_rep = ["".join(remove_iguais(w)) for w in words]
-  order = ["".join(sorted(i)) for i in no_rep]
-  return " ".join(order)
+  return
 
 # F. Derivada de um polinômio
 # Os coeficientes de um polinômio estão numa lista na ordem do seu grau.
@@ -31,7 +28,7 @@ def cripto(frase):
 # Exemplo: [3, 2, 5, 2] retorna [2, 10, 6]
 # A derivada de 3 + 2x + 5x^2 + 2x^3 é 2 + 10x + 6x^2
 def derivada(coef):
-  return [coef[i]*i for i in range(1,len(coef))]
+  return
 
 # G. Soma em listas invertidas
 # Colocamos os dígitos de dois números em listas ao contrário
@@ -40,16 +37,7 @@ def derivada(coef):
 # pode supor que n1 e n2 tem o mesmo número de dígitos
 # Não vale converter a lista em número para somar diretamente
 def soma(n1, n2):
-  l1 = n1
-  l2 = n2
-  s = []
-  vai_um=0
-  for i, j in zip(l1,l2):
-    s.append((i+j)%10 + vai_um)
-    vai_um = (i+j)//10
-  if vai_um > 0:
-    s.append(vai_um)
-  return s
+  return
 
 # H. Anagrama
 # Verifique se duas palavras são anagramas,
@@ -58,7 +46,7 @@ def soma(n1, n2):
 # anagrama('amor', 'ramo') = True
 # anagrama('aba', 'baba') = False
 def anagrama(s1, s2):
-  return sorted(s1.lower())==sorted(s2.lower())
+  return
 
 def test(obtido, esperado):
   if obtido == esperado:
