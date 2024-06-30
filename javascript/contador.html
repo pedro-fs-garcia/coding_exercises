@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Exercício contador</h1>
+    <h3>Contador = <span id="num_contador">0</span></h3>
+    <button id="botao_soma" onclick="soma_contador()">Somar 1</button>
+    <button id="botao_subtrai" onclick="subtrai_contador()">Subtrair 1</button>
+    <script>
+        function soma_contador(){
+            let currentSum = parseInt(document.getElementById("num_contador").innerHTML);
+            let new_sum = currentSum + 1;
+            document.getElementById("num_contador").innerHTML = new_sum;
+        }
+
+        function subtrai_contador(){
+            let currentSum = parseInt(document.getElementById("num_contador").innerHTML);
+            let new_sum = currentSum - 1;
+            document.getElementById("num_contador").innerHTML = new_sum;
+        }
+    </script>
+</body>
+</html>

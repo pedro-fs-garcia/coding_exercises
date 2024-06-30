@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Tarefas</h1>
+    <input type="text" id="nova_tarefa" placeholder="Digite uma nova tarefa">
+    <button onclick="adicionarTarefa()">Adicionar</button>
+    <ul id="lista_tarefas"></ul>
+
+    <script>
+        function adicionarTarefa() {
+            const tarefa = document.getElementById("nova_tarefa").value;
+            if (tarefa === "") {
+                alert("Por favor, digite uma tarefa.");
+                return;
+            }
+
+            const lista = document.getElementById("lista_tarefas");
+            const li = document.createElement("li");
+            li.textContent = tarefa;
+
+            lista.appendChild(li);
+            document.
+            document.getElementById("nova_tarefa").value = "";
+        }
+    </script>
+</body>
+</html>
