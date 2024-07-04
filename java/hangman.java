@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class forca{
+public class hangman{
     public static void main(String[] args) {
         System.out.println("Vamos nos enforcar!");
         playRound();
