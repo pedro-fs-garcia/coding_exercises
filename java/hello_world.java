@@ -15,9 +15,11 @@ public class hello_world {
     }
 
     public static void variables(){
+        // int: dado de 32 bits
         int inteiro = 10;
         System.out.printf("my number is " + inteiro);
 
+        // long: dado de 64 bits
         long numero = 1234365743562542435L;
         System.out.println(numero);
 
