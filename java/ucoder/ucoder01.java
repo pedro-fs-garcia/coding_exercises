@@ -1,7 +1,7 @@
 import java.util.*;
 public class ucoder01{
     public static void main(String[] args) {
-        esquerdaVolver();
+        tomadas();
     }
 
     //1000
@@ -137,7 +137,13 @@ public class ucoder01{
     //1061
     public static void tomadas(){
         Scanner scanner = new Scanner(System.in);
-        String[] reguasStr = scanner.nextLine().split(" ");
+        String[] regua = scanner.nextLine().split(" ");
+        int soma = 0;
+        for (int i=0; i<4; i++){
+            soma += Integer.parseInt(regua[i]);
+        }
+        soma -= 3;
+        System.out.println(soma);
     }
 
     //1062
