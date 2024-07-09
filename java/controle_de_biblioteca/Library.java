@@ -21,6 +21,7 @@ public class Library{
         if (book.isAvailable()){
             book.borrowBook();
             reader.borrowBook(book);
+            System.out.printf("%s foi emprestado a %s%n", book.title, reader.name);
         }else{
             System.out.printf("O livro %s não está disponível%n", book.title);
         }
