@@ -3,6 +3,7 @@ import java.util.*;
 
 public class project_euler{
     public static void main(String[] args) {
+        System.out.println(latticePaths(20));
         System.out.println(largeSum());
         System.out.println(largestProduct());
         System.out.println(largestProductGrid());
@@ -442,6 +443,22 @@ public class project_euler{
             }
         }
         return max;
+    }
+
+    //15
+    public static BigInteger factorial(int n){
+        BigInteger fact = BigInteger.valueOf(1);
+        for (int i=1; i<=n; i++){
+            BigInteger j = BigInteger.valueOf(i);
+            fact = fact.multiply(j);
+        }
+        return fact;
+    }
+
+    public static BigInteger latticePaths(int n){
+        BigInteger fact = factorial(2*n);
+        BigInteger divide = factorial(n).multiply(factorial(n));
+        return fact.divide(divide);
     }
 
     //16
