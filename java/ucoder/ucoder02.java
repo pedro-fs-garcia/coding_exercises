@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 public class ucoder02{
     public static void main(String[] args) {
-        cangurus();
+        quadrado();
     }
     
     //1007
@@ -148,8 +148,85 @@ public class ucoder02{
     }
     
     //1036
-    
+    public static Boolean verEscada(String[][] matrix){
+        int zeroIndex = -2;
+        for (int i = 0; i < matrix.length; i++){
+            int lineIndex = -1;
+            for (int j = 0; j < matrix[i].length; j++){
+                if (matrix[i][j].equals('0')){
+                    lineIndex = j;
+                }else{
+                    break;
+                }
+            }
+            if (zeroIndex == -1 && lineIndex > zeroIndex){
+                zeroIndex = lineIndex;
+            }else if (lineIndex > zeroIndex){
+                zeroIndex = lineIndex;
+            }else if (lineIndex <= zeroIndex){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void matrizEscada(){
+        Scanner scanner = new Scanner(System.in);
+        String[] dimensions = scanner.nextLine().split(" ");
+        String[][] matrix = new String[Integer.parseInt(dimensions[0])][Integer.parseInt(dimensions[1])];
+        for (int i=0; i<Integer.parseInt(dimensions[0]); i++){
+            String[] newLine = scanner.nextLine().split(" ");
+            matrix[i] = newLine;
+        }
+        if (verEscada(matrix)){
+            System.out.println("S");
+        }else{
+            System.out.println("N");
+        }
+    }
 
     //1038
+    public static void quadrado(){
+        Scanner scanner = new Scanner(System.in);
+        int dimension = scanner.nextInt();
+        int[][] matrix = new int[dimension][dimension];
+        String[][] tempMatrix = new String[dimension][dimension];
+        scanner.nextLine();
+        for (int i = 0; i < dimension; i++){
+            tempMatrix[i] = scanner.nextLine().split(" ");
+        }
+        for (int i = 0; i < dimension; i++){
+            for (int j = 0; j < dimension; j++){
+                matrix[i][j] = Integer.parseInt(tempMatrix[i][j]);
+            }
+        }
+        int[] sumLines = new int[dimension];
+        int[] sumCols = new int[dimension];
+        for (int line = 0; line < dimension; line++){
+            for (int row = 0; row < dimension; row++){
+                sumLines[line] += matrix[line][row];
+                sumCols[row] += matrix[line][row];
+            }
+        }
+        int differentLine = -1;
+        int differentRow = -1;
+        int somaOriginal = -1;
+        int somaLaura = -1;
+        for (int i = 0; i < dimension; i++){
+            if ( sumLines[i] != sumLines[(i+1)%dimension] && sumLines[i] != sumLines[(i+2)%dimension]){
+                differentLine = i;
+                somaLaura = sumLines[i];
+            }else{
+                somaOriginal = sumLines[i];
+            }
+            if (sumCols[i] != sumCols[(i+1)%dimension] && sumCols[i] != sumCols[(i+2)%dimension]){
+                differentRow = i;
+            }
+        }
+        int numLaura = matrix[differentLine][differentRow];
+        int numOriginal = Math.abs(somaLaura - somaOriginal - numLaura);
+        System.out.printf("%s %s%n", numOriginal, numLaura);
+    }
 
+    
 }
