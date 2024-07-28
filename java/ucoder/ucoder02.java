@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 public class ucoder02{
     public static void main(String[] args) {
-        quadrado();
+        letras();
     }
     
     //1007
@@ -228,5 +229,84 @@ public class ucoder02{
         System.out.printf("%s %s%n", numOriginal, numLaura);
     }
 
-    
+    //1041
+    public static int getStreetPosition(String[] houses, String number){
+        for (int i=0; i<houses.length; i++){
+            if (houses[i].equals(number)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public static void carteiro(){
+        Scanner scanner = new Scanner(System.in);
+        String[] housesLetters = scanner.nextLine().split(" ");
+        String[] houseNumbers = scanner.nextLine().split(" ");
+        String[] letterNumbers = scanner.nextLine().split(" ");
+        int[] positions = new int[letterNumbers.length];
+        for (int i = 0; i < letterNumbers.length; i++){
+            positions[i] = getStreetPosition(houseNumbers, letterNumbers[i]);
+        }
+        int time = positions[0];
+        for (int i = 1; i<positions.length; i++){
+            time += Math.abs(positions[i-1] - positions[i]);
+        }
+        System.out.println(time);
+    }
+
+    //1043
+    public static void notas(){
+        Scanner scanner = new Scanner(System.in);
+        String numNotas = scanner.nextLine();
+        String tempNotas = scanner.nextLine();
+        ArrayList<Integer> notas = new ArrayList<>();
+        for (String s : tempNotas.split(" ")){
+            notas.add(Integer.parseInt(s));
+        }
+        int maiorNota = -1;
+        int maiorFreq = 0;
+        for (int nota : notas){
+            int freq = Collections.frequency(notas, nota);
+            if (freq > maiorFreq){
+                maiorFreq = freq;
+                maiorNota = nota;
+            }else if (freq == maiorFreq && nota > maiorNota){
+                maiorFreq = freq;
+                maiorNota = nota;
+            }
+        }
+        System.out.println(maiorNota);
+    }
+
+    //1037
+    public static void decifra(){
+        Scanner scanner = new Scanner(System.in);
+        String[] alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+        String[] key = scanner.nextLine().split("");
+        String[] phrase = scanner.nextLine().split("");
+        Map<String, String> keyToAlpha = new HashMap<>();
+        for (int i = 0; i < alphabet.length; i++){
+            keyToAlpha.put(key[i], alphabet[i]);
+        }
+        StringBuilder message = new StringBuilder();
+        for (String s : phrase){
+            message.append(keyToAlpha.get(s));
+        }
+        System.out.println(message);
+    }
+
+    //1031
+    public static void letras(){
+        Scanner scanner = new Scanner(System.in);
+        String letter = scanner.nextLine();
+        String[] phrase = scanner.nextLine().split(" ");
+        Double contains = 0.0;
+        Double len = Double.valueOf(phrase.length);
+        for (String s : phrase){
+            if (s.contains(letter)){
+                contains += 1.0;
+            }
+        }
+        System.out.printf("%.1f%n", contains/len * 100);
+    }
 }
