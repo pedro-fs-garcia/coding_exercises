@@ -1,11 +1,13 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 public class ucoder02{
     public static void main(String[] args) {
-        letras();
+        chocolateEmBarra();
     }
     
     //1007
@@ -308,5 +310,146 @@ public class ucoder02{
             }
         }
         System.out.printf("%.1f%n", contains/len * 100);
+    }
+
+    //1048
+    public static void loteria(){
+        Scanner scanner = new Scanner(System.in);
+        String[] aposta = scanner.nextLine().split(" ");
+        // String[] tempSorteados = scanner.nextLine().split(" ");
+        List<String> sorteados = Arrays.asList(scanner.nextLine().split(" "));
+        int corrects = 0;
+        for (String s : aposta){
+            if (sorteados.contains(s)){
+                corrects += 1;
+            }
+        }
+        String result = switch (corrects){
+            case 6 -> "sena";
+            case 5 -> "quina";
+            case 4 -> "quadra";
+            case 3 -> "terno";
+            default -> "azar";
+        };
+        System.out.println(result);
+    }
+
+    //1052
+    public static void volumeDaTv(){
+        Scanner scanner = new Scanner(System.in);
+        String[] inicio = scanner.nextLine().split(" ");
+        String[] mudancas = scanner.nextLine().split(" ");
+        int volInicial = Integer.parseInt(inicio[0]);
+        int volFinal = volInicial;
+        for (String s : mudancas){
+            volFinal += Integer.parseInt(s);
+            if (volFinal > 100){
+                volFinal = 100;
+            }else if (volFinal < 0){
+                volFinal = 0;
+            }
+        }
+        System.out.println(volFinal);
+    }
+
+    //1075
+    public static void consecutivos(){
+        Scanner scanner = new Scanner(System.in);
+        int quant = scanner.nextInt();
+        scanner.nextLine();
+        String[] numeros = scanner.nextLine().split(" ");
+        int finalCount = 1;
+        for (int i = 0; i < quant-1; i++){
+            int tempCount = 1;
+            for (int j = i+1; j < quant; j++){
+                if (numeros[i].equals(numeros[j])){
+                    tempCount += 1;
+                }else{
+                    break;
+                }
+            }
+            if (tempCount > finalCount){
+                finalCount = tempCount;
+            }
+        }
+        System.out.println(finalCount);
+    }
+
+    //1085
+    public static void aniversario(){
+        Scanner scanner = new Scanner(System.in);
+        String[] malaquias = scanner.nextLine().split(" ");
+        List<Boolean> results = new ArrayList<>();
+        Boolean runLoop = true;
+        while (runLoop) {
+            String turma = scanner.nextLine();
+            if (turma.equals("0 0")){
+                runLoop = false;
+                continue;
+            }
+            Boolean aniversario = false;
+            for (int i = 0; i < Integer.parseInt(turma); i++){
+                String[] info = scanner.nextLine().split(" ");
+                if (info[0].equals(malaquias[0]) && info[1].equals(malaquias[1])){
+                    aniversario = true;
+                } else if(info[0].equals('0') && info[1].equals('0')){
+                    runLoop = false;
+                    break;
+                }
+            }
+            results.add(aniversario);
+        }
+        for (Boolean b : results){
+            if (b){
+                System.out.println("S");
+            }else{
+                System.out.println("N");
+            }
+        }
+    }
+
+    //1107
+    public static void jogoDeEstrategia(){
+        Scanner scanner = new Scanner (System.in);
+        String[] gameInfo = scanner.nextLine().split(" ");
+        int numJogadores = Integer.parseInt(gameInfo[0]);
+        String[] pontos = scanner.nextLine().split(" ");
+        int[] pontosPorJogador = new int[numJogadores];
+        for (int i=0; i<numJogadores; i++){
+            for (int j=i; j<pontos.length; j += numJogadores){
+                pontosPorJogador[i] += Integer.parseInt(pontos[j]);
+            }
+        }
+        int winner = -1;
+        int morePoints = -1;
+        for (int i=0; i<pontosPorJogador.length; i++){
+            if (pontosPorJogador[i] >= morePoints){
+                winner = i+1;
+                morePoints = pontosPorJogador[i];
+            }
+        }
+        System.out.println(winner);
+    }
+
+    //1111
+    public static void chocolateEmBarra(){
+        Scanner scanner = new Scanner(System.in);
+        int d = scanner.nextInt();
+        scanner.nextLine();
+        String[] coord1 = scanner.nextLine().split(" ");
+        int[] c1 = {Integer.parseInt(coord1[0])-1, Integer.parseInt(coord1[1])-1};
+        String[] coord2 = scanner.nextLine().split(" ");
+        int[] c2 = {Integer.parseInt(coord2[0])-1, Integer.parseInt(coord2[1])-1};
+        if (c1[0] >= 0 && c1[0] <= d/2-1 && c1[1]>=0 && c1[1] <= d-1 && c2[0] > d/2-1 && c2[0] <= d-1 && c2[1]>=0 && c2[1] <= d-1){
+            System.out.println("S");
+        }else if (c1[0] >= 0 && c1[0] <= d-1 && c1[1]>=0 && c1[1] <= d/2-1 && c2[0] >= 0 && c2[0] <= d-1 && c2[1]>d/2-1 && c2[1] <= d-1) {
+            System.out.println("S");
+        }else if (c2[0] >= 0 && c2[0] <= d/2-1 && c2[1]>=0 && c2[1] <= d-1 && c1[0] > d/2-1 && c1[0] <= d-1 && c1[1]>=0 && c1[1] <= d-1) {
+            System.out.println("S");
+        }else if(c2[0] >= 0 && c2[0] <= d/2-1 && c2[1] >= 0 && c2[1] <= d-1 && c1[0] > d/2-1 && c1[0] <= d-1 && c1[1] >= 0 && c1[1] <= d-1){
+            System.out.println("S");
+        }else{
+            System.out.println("N");
+        }
     }
 }
