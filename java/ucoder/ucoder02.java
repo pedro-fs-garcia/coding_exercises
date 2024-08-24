@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 public class ucoder02{
     public static void main(String[] args) {
-        chocolateEmBarra();
+        helloGalaxy();
     }
     
     //1007
@@ -452,4 +452,120 @@ public class ucoder02{
             System.out.println("N");
         }
     }
+
+    //1117
+    public static void fitaColorida(){
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        String[] input = scanner.nextLine().split(" ");
+        int[] fita = new int[n];
+        ArrayList<Integer> zeroIndexes = new ArrayList<>();
+        for (int i = 0; i < n; i++){
+            fita[i] = Integer.parseInt(input[i]);
+            if (fita[i] == 0){
+                zeroIndexes.add(i);
+            }
+        }
+        System.out.println(zeroIndexes.toString());
+
+        for (int i = 0; i < n; i++){
+            int min = n;
+            for (int j : zeroIndexes){
+                if ((Math.abs(i - j)) < min){
+                    min = Math.abs(i-j);
+                }
+            }
+            if (min > 9){
+                min = 9;
+            }
+            fita[i] = min;
+        }
+        String resp = "";
+        for (int i = 0; i < n; i++){
+            if (i == n-1){
+                resp += Integer.toString(fita[i]);
+            }
+            else{
+                resp += Integer.toString(fita[i]) + " ";
+            }
+        }
+        System.out.println(resp);
+    }
+
+    // 1119
+    public static void cobraCoral(){
+        Scanner scanner = new Scanner(System.in);
+        String[] input = scanner.nextLine().split(" ");
+        String Verdadeira = "F";
+        for (int i = 0; i < 2; i++){
+            if (input[i].equals(input[i+2])){
+                Verdadeira = "V";
+            }
+        }
+        System.out.println(Verdadeira);
+    }
+
+    public static void cobraCoral2(){
+        Scanner scanner = new Scanner(System.in);
+        String[] input = scanner.nextLine().split(" ");
+        if (input[0].equals(input[3])){
+            System.out.println("F");
+        }else{
+            System.out.println("V");
+        }
+    }
+
+    //1120
+    public static void quebraCabeca(){
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        HashMap<String, String[]> pecas = new HashMap<>();
+        for (int i = 0; i < n; i++){
+            String[] input = scanner.nextLine().split(" ");
+            String[] value = {input[1], input[2]};
+            pecas.put(input[0], value);
+        }
+        StringBuilder resposta = new StringBuilder();
+        String[] peca = pecas.get("0");
+        String proximo = peca[1];
+        resposta.append(peca[0]);
+        while (!proximo.equals("1")){
+            peca = pecas.get(proximo);
+            resposta.append(peca[0]);
+            proximo = peca[1];
+        }
+        System.out.println(resposta);
+    }
+
+    //1143
+    public static void helloGalaxy(){
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<String> planetas = new ArrayList<>();
+        int n = scanner.nextInt();
+        while (n != 0){
+            scanner.nextLine();
+            String[][] matrix = new String[n][3];
+            for (int i = 0; i < n; i++){
+                matrix[i] = scanner.nextLine().split(" ");
+            }
+            int maisRecente = Integer.parseInt(matrix[0][1]) - Integer.parseInt(matrix[0][2]);
+            String planeta = matrix[0][0];
+            for (int i = 1; i < n; i++){
+                int ano = Integer.parseInt(matrix[i][1]) - Integer.parseInt(matrix[i][2]);
+                if (ano < maisRecente){
+                    maisRecente = ano;
+                    planeta = matrix[i][0];
+                }
+            }
+            planetas.add(planeta);
+            n = scanner.nextInt();
+        }
+        for (String planeta : planetas){
+            System.out.println(planeta);
+        }
+    }
+
+
 }
