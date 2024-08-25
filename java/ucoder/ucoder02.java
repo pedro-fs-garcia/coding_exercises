@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 public class ucoder02{
     public static void main(String[] args) {
-        helloGalaxy();
+        penalties();
     }
     
     //1007
@@ -567,5 +567,166 @@ public class ucoder02{
         }
     }
 
+    //1144
+    public static void perguntasFrequentes(){
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        int[] resp = new int[n];
+        int teste = 0;
+        while (teste < n){
+            String[] info = scanner.nextLine().split(" ");
+            String[] perguntas = scanner.nextLine().split(" ");
+            HashMap<String, Integer> counter = new HashMap<>();
+            for (String s : perguntas){
+                if (counter.containsKey(s)){
+                    int count = counter.get(s) + 1;
+                    counter.put(s, count);
+                }else{
+                    counter.put(s, 1);
+                }
+            }
+            int c = 0;
+            for (HashMap.Entry<String, Integer> entry : counter.entrySet()){
+                int value = entry.getValue();
+                if (value >= Integer.parseInt(info[1])){
+                    c ++;
+                }
+            }
+            resp[teste] = c;
+            teste ++;
+        }
+        for (int i : resp){
+            System.out.println(i);
+        }
+    }
 
+    //1151
+    public static void variacoes(){
+        ArrayList<Character> chars = new ArrayList<>();
+        chars.add('a');
+        chars.add('e');
+        chars.add('i');
+        chars.add('o');
+        chars.add('s');
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        String[] input = new String[n];
+        for (int i = 0; i < n; i++){
+            String in = scanner.nextLine();
+            input[i] = in;
+        }
+        long[] resposta = new long[n];
+        for (int i = 0; i < n; i++){
+            long count = 1;
+            for (char c : input[i].toLowerCase().toCharArray()){
+                if (chars.contains(c)){
+                    count = count * 3;
+                }else{
+                    count = count * 2;
+                }
+            }
+            resposta[i] = count;
+        }
+        for (long r : resposta){
+            System.out.println(r);
+        }
+    }
+
+    //1156
+    public static String calculoDano(int H, int at, int ad, int bt, int bd){
+        int tempo = 0;
+        while (H > 0){
+            if (tempo % ad == 0 && tempo % bd == 0){
+                H -= at;
+                if (H <= 0){
+                    return "Andre";
+                }
+                H -= bt;
+                if (H <= 0){
+                    return "Beto";
+                }
+            }else if (tempo % ad == 0){
+                H -= at;
+                if (H <= 0){
+                    return "Andre";
+                }
+            }else if (tempo % bd == 0){
+                H -= bt;
+                if (H <= 0){
+                    return "Beto";
+                }
+            }
+            tempo += 1;
+        }
+        return null;
+    }
+
+    public static void ultimoDano(){
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        int test = 0;
+        String[] resp = new String[n];
+        while (test < n){
+            String[] input = scanner.nextLine().split(" ");
+            int H = scanner.nextInt();
+            scanner.nextLine();
+            int at = Integer.parseInt(input[0]);
+            int ad = Integer.parseInt(input[1]);
+            int bt = Integer.parseInt(input[2]);
+            int bd = Integer.parseInt(input[3]);
+            resp[test] = calculoDano(H, at, ad, bt, bd);
+            test++;
+        }
+        for (String r : resp){
+            System.out.println(r);
+        }
+    }
+
+    //1157
+    public static void penalties(){
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        String timeA = scanner.nextLine();
+        String timeB = scanner.nextLine();
+        int pontosA = 0;
+        int chutesA = n;
+        int pontosB = 0;
+        int chutesB = n;
+        int chute = 0;
+        boolean fim = true;
+        for (int i = 0; i < n; i++){
+            if (timeA.charAt(i) == 'o'){
+                pontosA += 1;
+            }
+            chutesA -= 1;
+            chute += 1;
+            if (Math.abs(pontosA - pontosB) > chutesB){
+                System.out.println(chute);
+                fim = false;
+                break;
+            }
+
+            if (timeB.charAt(i) == 'o'){
+                pontosB += 1;
+            }
+            chutesB -= 1;
+            chute += 1;
+            if(Math.abs(pontosA-pontosB) > chutesA){
+                System.out.println(chute);
+                fim = false;
+                break;
+            }
+        }
+        if (fim){
+            if (pontosA == pontosB){
+                System.out.println("Empate");
+            }else{
+                System.out.println(2*n);
+            }
+        }
+    }
 }
