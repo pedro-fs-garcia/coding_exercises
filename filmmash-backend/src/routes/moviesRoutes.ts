@@ -1,7 +1,7 @@
 import express from 'express';
 import {Request, Response} from "express";
 import { dbConnection } from "../services/database";
-import { getNewArena } from '../dao/movieDAO';
+import { getNewArena, updateScore } from '../dao/movieDAO';
 import { Arena } from '../models/models';
 
 const moviesRouter = express.Router();
@@ -37,13 +37,17 @@ const postWinner = async (req: Request, res: Response): Promise<void> => {
         // Extraindo os dados do objeto 'arena'
         const { movie1, movie2, winner } = arena;
 
-        // Exemplo: Lógica para salvar a vitória no banco de dados (se necessário)
-        console.log("Movie 1:", movie1);
-        console.log("Movie 2:", movie2);
-        console.log("Winner:", winner);
+        let updatedArena = new Arena(movie1, movie2)
+        updatedArena.winner = winner
+
+        let newMovieELO = updatedArena.calculateNewScores()
+        for (var m of newMovieELO){
+            updateScore(m)
+        }
 
         // Respondendo ao cliente
         res.status(201).json({ message: "Winner registered successfully.", arena });
+
     } catch (error) {
         console.error("Error processing winner:", error);
         res.status(500).json({ error: "Failed to process winner." });

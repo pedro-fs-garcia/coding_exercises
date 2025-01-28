@@ -1,3 +1,18 @@
+class User {
+    public id:number;
+    public username: String;
+    public email:String;
+    public password:String;
+
+    constructor(){
+        this.id = 0
+        this.username = ""
+        this.email = ""
+        this.password = ""
+    }
+}
+
+
 class Movie {
     public id: number;
     public title: string;
@@ -31,7 +46,7 @@ class Arena {
 
     public calculateNewScores(){
         if (this.winner == null){
-            return null
+            return []
         }else if (this.movie1 && this.movie2){
             let winner:Movie = this.movie1
             let loser:Movie = this.movie2
@@ -54,6 +69,7 @@ class Arena {
                 loser.elo = new_RB
                 return [winner, loser]
         }
+        return []
     }
 
     public toJson() {
@@ -88,4 +104,4 @@ class Arena {
 }
 
 
-export {Movie, Arena}
+export {Movie, Arena, User}

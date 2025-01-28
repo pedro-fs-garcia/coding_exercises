@@ -1,6 +1,11 @@
 import {Request, Response} from "express";
 import { dbConnection } from "../services/database";
+import dotenv from "dotenv";
+import jwt from 'jsonwebtoken';
+import { NextFunction } from "express";
+dotenv.config();
 
+const SECRET_KEY = process.env.SECRET_KEY
 
 const handleRegister = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
@@ -31,5 +36,25 @@ const handleLogin = async (req: Request, res: Response) => {
     }
   };
 
+const authenticateToken = (req: Request, res: Response, next: NextFunction): void => {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
 
-export {handleLogin, handleRegister};
+    if (!token) {
+        res.status(401).json({ error: 'Access denied. No token provided.' });
+    }
+
+    try {
+        const secretKey = process.env.JWT_SECRET || 'default_secret';
+        const decoded = jwt.verify(token, secretKey);
+
+        // Adiciona os dados do token ao objeto `req.user`
+        req.user = decoded as Record<string, any>; // Ou use um tipo mais específico, se preferir
+        next();
+    } catch (err) {
+        console.error('Invalid token:', err);
+        res.status(403).json({ error: 'Invalid token.' });
+    }
+};
+
+export {handleLogin, handleRegister, authenticateToken};

@@ -1,55 +1,84 @@
 import { Movie, Arena } from "../models/models";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const BattlePage: React.FC = () => {
-    const [arena, setArena] = useState<Arena | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-  
-    const fetchArena = async () => {
+  const [arena, setArena] = useState<Arena | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // Para redirecionamento
+
+  const fetchArena = async () => {
       try {
-        setLoading(true);
-        const response = await fetch("http://localhost:5000/get_arena_json");
-        if (!response.ok) {
-          throw new Error(`Error fetching arena: ${response.statusText}`);
-        }
-        const data: Arena = await response.json();
-        setArena(data);
+          setLoading(true);
+
+          // Recupera o token de autenticação do localStorage
+          const token = localStorage.getItem("authToken");
+          if (!token) {
+              throw new Error("User not authenticated. Please log in.");
+          }
+
+          const response = await fetch("http://localhost:5000/get_arena_json", {
+              method: "GET",
+              headers: {
+                  Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
+              },
+          });
+
+          if (!response.ok) {
+              if (response.status === 401) {
+                  throw new Error("Session expired. Please log in again.");
+              } else {
+                  throw new Error(`Error fetching arena: ${response.statusText}`);
+              }
+          }
+
+          const data: Arena = await response.json();
+          setArena(data);
       } catch (err) {
-        setError((err as Error).message);
+          const errorMessage = (err as Error).message;
+          setError(errorMessage);
+
+          // Se o erro for relacionado à autenticação, redireciona para o login
+          if (errorMessage.includes("log in")) {
+              navigate("/login");
+          }
       } finally {
-        setLoading(false);
+          setLoading(false);
       }
-    };
-  
-    useEffect(() => {
+  };
+
+  useEffect(() => {
       fetchArena();
-    }, []);
-  
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
     async function postWinner1(){
         if(arena){
             let postArena:Arena = new Arena(arena.movie1, arena.movie2);
             postArena.winner = arena.movie1.id;
-            let obj = postArena.toJson()
+            let jsonObj = postArena.toJson()
             try{
                 const response = await fetch("http://localhost:5000/post_winner", {
                     method:"POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({obj}),
+                    body: JSON.stringify({arena:jsonObj}),
                 });
 
                 const data = await response.json();
                 if (response.ok) {
                     console.log('winner registered successfylly:', data);
+                    window.location.reload()
                   } else {
                     console.error('movie battle winner failed:', data.error);
+                    alert(`Error when registering winner: ${data.error}`)
                   }
             } catch (error) {
-                console.error('movie battle winner failed:', error);
+                console.error('Server communication error:', error);
+                alert("Something went wrong when trying to process your request.")
             }
         }
     }
@@ -69,11 +98,14 @@ const BattlePage: React.FC = () => {
                 const data = await response.json();
                 if (response.ok) {
                     console.log('winner registered successfylly:', data);
+                    window.location.reload()
                   } else {
                     console.error('movie battle winner failed:', data.error);
+                    alert(`Error when registering winner: ${data.error}`)
                   }
             } catch (error) {
-                console.error('movie battle winner failed:', error);
+                console.error('Server communication error:', error);
+                alert("Something went wrong when trying to process your request.")
             }
         }
     }

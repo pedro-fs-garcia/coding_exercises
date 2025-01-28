@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import BattlePage from './pages/battlePage';
 import RatingsPage from './pages/ratingsPage';
 import Dashboard from './pages/dashboard';
+import ProtectedRoute from "./authentication/protectedRoute";
 
 const Router = () => (
     <>    
@@ -13,7 +14,11 @@ const Router = () => (
                 <Route path="/login" element = {<LoginPage/>} />
                 <Route path="/battle" element = {<BattlePage/>} />
                 <Route path="/ratings" element = {<RatingsPage/>} />
-                <Route path="/dashboard" element = {<Dashboard/>} />
+                <Route path="/dashboard" element = {
+                    <ProtectedRoute isAuthenticated={!!localStorage.getItem('token')}>
+                        <Dashboard />
+                    </ProtectedRoute>
+                }/>
             </Routes>
         </BrowserRouter>
     </>

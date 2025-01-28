@@ -27,7 +27,21 @@ async function getNewArena(): Promise<Arena | null> {
 }
 
 
+async function updateScore(movie:Movie) : Promise<boolean> {
+    try{
+        const [rows]: any = await dbConnection.query(
+            'UPDATE movies SET elo = ? WHERE id = ?', [movie.elo, movie.id]);
+
+        if (rows){
+            console.log(`ELO score of the movie ${movie.title} was updated.`)
+            return true;
+        }
+
+    } catch (error) {
+        console.error("Failed to update movie ELO score:", error)
+    }
+    return false;
+}
 
 
-
-export {getNewArena};
+export {getNewArena, updateScore};

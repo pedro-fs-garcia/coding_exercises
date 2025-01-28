@@ -1,5 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 
 function LoginPage() {
+  const navigate = useNavigate();
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -17,6 +20,8 @@ function LoginPage() {
 
             const data = await response.json();
             if (response.ok) {
+                localStorage.setItem("authToken", data.token);
+                navigate("/battle");
                 console.log('Login successful:', data);
             } else {
                 console.error('Login failed:', data.error);
@@ -43,6 +48,7 @@ function LoginPage() {
             const data = await response.json();
             if (response.ok) {
                 console.log('Registration successful:', data);
+                navigate("/battle")
               } else {
                 console.error('Registration failed:', data.error);
               }
