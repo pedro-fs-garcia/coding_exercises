@@ -1,5 +1,11 @@
 
 function Header(){
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    };
+
     return(
         <div className="bg-gray-100 text-gray-900">
             <nav className="bg-gray-800 text-white top-0 left-0 w-full z-50" >
@@ -24,6 +30,11 @@ function Header(){
                                     className="text-lg font-large hover:bg-gray-200 hover:text-black font-bold py-2 px-4 border hover:border-transparent">
                                     Login
                                 </button></a>
+                            <a>
+                                <button onClick={handleLogout} className="text-lg font-large hover:bg-gray-200 hover:text-black font-bold py-2 px-4 border hover:border-transparent">
+                                    Logout
+                                </button>
+                            </a>
                         </div>
                     </div>
 

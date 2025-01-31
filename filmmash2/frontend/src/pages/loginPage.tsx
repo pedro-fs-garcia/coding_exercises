@@ -4,6 +4,35 @@ function LoginPage(){
     const navigate = useNavigate();
     
     const handleLogin = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const email = (document.getElementById("email") as HTMLInputElement).value;
+        const password = (document.getElementById("password") as HTMLInputElement).value;
+        console.log({email, password})
+        
+        try{
+            const response = await fetch("http://localhost:5000/login",{
+                method:'POST',
+                headers:{ "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await response.json()
+
+            if(!response.ok){
+                alert('Failed to login')
+                throw new Error(data.error || 'Failed to login');
+            }
+            
+            localStorage.setItem('token', data.loginToken);
+            localStorage.setItem('userId', data.userId);
+            console.log('Login successful:', data.loginToken)
+            console.log(`token: ${localStorage.getItem("token")}`)
+            console.log(`user id: ${localStorage.userId}`)
+            navigate('/dashboard')
+            
+        }catch (error) {
+            console.error('Login error:', error)
+            alert('Failed to login')
+        }
     }
     
     const handleRegister = async (event: React.FormEvent) => {

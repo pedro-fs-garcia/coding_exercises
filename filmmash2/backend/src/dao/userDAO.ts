@@ -56,4 +56,21 @@ async function validateUser(email:String, password:String): Promise<User|null> {
     }
 }
 
-export {registerUser, validateUser, existingUser};
+async function getUserById(id:number){
+    try{
+        const [rows] = await dbConnection.query<RowDataPacket[]>(
+            'Select * FROM users WHERE id = ?',
+            [id]
+        );
+        if (rows.length === 0){
+            return null
+        }
+        const user = rows[0] as User;
+        return user
+    }catch(error){
+        console.error(error)
+        return null;
+    }
+}
+
+export {registerUser, validateUser, existingUser, getUserById};
