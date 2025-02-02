@@ -1,0 +1,37 @@
+📝 Requisitos Funcionais
+Autenticação de Usuários
+
+O sistema deve permitir que os usuários se cadastrem com informações básicas (nome, e-mail e senha).
+Usuários devem poder fazer login e logout.
+O sistema deve oferecer recuperação de senha.
+Níveis de Acesso
+
+Leitor:
+
+Pode buscar e visualizar detalhes de livros disponíveis.
+Pode realizar empréstimos de livros.
+Pode visualizar o histórico de empréstimos.
+Bibliotecário:
+
+Pode adicionar novos livros ao sistema.
+Pode remover livros existentes.
+Pode visualizar todos os livros e seus detalhes.
+Pode gerenciar os empréstimos feitos pelos leitores.
+Administrador:
+
+Pode gerenciar todos os usuários do sistema (adicionar, remover ou editar).
+Pode visualizar relatórios sobre empréstimos e livros.
+Pode gerenciar as configurações da plataforma.
+Gerenciamento de Livros
+
+O sistema deve permitir a adição de livros com informações como título, autor, gênero, descrição e disponibilidade.
+O sistema deve permitir que os leitores pesquisem livros por título, autor ou gênero.
+Empréstimos de Livros
+
+Os leitores podem solicitar empréstimos de livros disponíveis.
+O sistema deve registrar a data do empréstimo e a data prevista de devolução.
+O bibliotecário deve poder confirmar e registrar a devolução dos livros.
+🔍 Requisitos Não Funcionais
+O sistema deve ser responsivo e funcionar em dispositivos móveis.
+O tempo de resposta do sistema deve ser inferior a 2 segundos em operações de busca.
+O sistema deve garantir a segurança dos dados dos usuários.
