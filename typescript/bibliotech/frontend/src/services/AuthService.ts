@@ -24,7 +24,7 @@ class AuthService {
             alert("Failed to login")
         }
         return false;
-    }
+    };
 
     static async register(username:String, email:String, password:String){
         try{
@@ -49,7 +49,39 @@ class AuthService {
         }catch (error){
             console.error('Error registering user:', error);
         }
-    }
+    };
+
+    static async refreshAccessToken(){
+        try{
+            const token = sessionStorage.getItem('token');
+            const response = await fetch(`${this.baseURL}/refresh_access_token`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json" },
+                body: JSON.stringify({token:token})
+            });
+            const data = await response.json()
+            sessionStorage.setItem('token', data.token);
+            alert('token atualizado')
+            return true;
+        }catch(error){
+            console.error('Erro ao renovar token', error);
+            return false;
+        }
+    };
+
+    static async logout(){
+        try{
+            await fetch(`${this.baseURL}/logout`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json" },
+            });
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.href = "/login";
+        }catch(error){
+            console.log('Erro no logout', error);
+        }
+    };
 }
 
 export default AuthService;
@@ -113,11 +145,11 @@ export default AuthService;
         //         throw new Error(data.error || 'Failed to login');
         //     }
             
-        //     localStorage.setItem('token', data.loginToken);
-        //     localStorage.setItem('userId', data.userId);
+        //     sessionStorage.setItem('token', data.loginToken);
+        //     sessionStorage.setItem('userId', data.userId);
         //     console.log('Login successful:', data.loginToken)
-        //     console.log(`token: ${localStorage.getItem("token")}`)
-        //     console.log(`user id: ${localStorage.userId}`)
+        //     console.log(`token: ${sessionStorage.getItem("token")}`)
+        //     console.log(`user id: ${sessionStorage.userId}`)
         //     navigate('/dashboard')
             
         // }catch (error) {

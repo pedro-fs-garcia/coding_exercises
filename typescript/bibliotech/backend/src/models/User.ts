@@ -1,6 +1,6 @@
 class User{
     public id: number|null;
-    public name: String;
+    public username: String;
     public email: String;
     public password:String;
     public role:'reader'|'librarian'|'admin';
@@ -8,7 +8,7 @@ class User{
 
     constructor (id:number, name:String, email:String, password:String, role:'reader'|'librarian'|'admin', created_at:String){
         this.id = id;
-        this.name = name;
+        this.username = name;
         this.email = email;
         this.password = password;
         this.role = role;

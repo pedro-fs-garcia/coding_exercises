@@ -1,14 +1,16 @@
 import User from "../models/User";
+import AuthService from "../services/AuthService";
 
 function Header() {
   //const {user} = useAuth();
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem('user');
+    AuthService.logout();
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem('user');
     window.location.href = "/login";
   };
   
-  const user:User|null = JSON.parse(localStorage.getItem('user') || "null");
+  const user:User|null = JSON.parse(sessionStorage.getItem('user') || "null");
 
   return (
     <header className="bg-gray-900 text-white p-4">
@@ -22,6 +24,12 @@ function Header() {
             <li>
               <a href="/dashboard" className="hover:underline">Dashboard</a>
             </li>
+
+            {user?.role === "admin" && (
+                    <a href="/dashboard" className="mr-4 hover:underline">
+                        Painel Admin
+                    </a>
+            )}
 
             {user ? (
               <li>

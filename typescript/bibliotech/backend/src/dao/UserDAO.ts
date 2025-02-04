@@ -64,6 +64,71 @@ class UserDAO{
             return false;
         }
     }
+
+    static async getAllUsers():Promise<User[] | null>{
+        let usersJson: any[] = [];
+        try{
+            const [rows]:any = await dbConnection.query(
+                'SELECT * FROM users'
+            );
+
+            if (rows && rows.length > 0){
+                rows.forEach((row:any) => {
+                    console.log("user no loop for: ", row.username);
+                    usersJson.push({
+                        id: row.id,
+                        username:row.username,
+                        email:row.email,
+                        password:row.password,
+                        role:row.role,
+                        created_at:row.created_at
+                    });
+                });
+            }
+            console.log("usersJson: ", usersJson);
+            return usersJson;
+
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    }
+
+    static async updateUser(user:User){
+        try{
+            const [rows] = await this.dbConnection.query<OkPacket>(
+                'UPDATE users SET username = ?, email = ?, role = ? WHERE id = ?',
+                [user.username, user.email, user.role, user.id]
+            );
+
+            if (rows.affectedRows > 0){
+                console.log('usuário atualizado com sucesso');
+                return true;
+            }
+
+        }catch(error){
+            console.log(error);
+        }
+        return false;
+    }
+
+    static async deleteUser(id:number){
+        try{
+            const [rows] = await this.dbConnection.query<OkPacket>(
+                'DELETE FROM users WHERE id = ?',
+                [id]
+            );
+
+            if (rows.affectedRows > 0){
+                console.log('usuário excuído com sucesso');
+                return true;
+            }
+
+        }catch(error){
+            console.error("userdao deleteuser: ", error)
+        }
+        return false;
+    }
 }
 
 export default UserDAO;

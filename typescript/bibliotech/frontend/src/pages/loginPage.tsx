@@ -1,30 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
-import { useAuth } from "../contexts/authContext";
 import User from "../models/User";
 
 function LoginPage(){
     const navigate = useNavigate();
-    const {login} = useAuth();
     const[username, setUsername] = useState("");
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
 
+    const [token, setToken] = useState("");
+
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
+        try{
+            const data = await AuthService.login(email, password);
+            setToken(data.token);
+            console.log('login bem sucedido');
 
-        const data = await AuthService.login(email, password);
-        login(data.user);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', data.token);
-        
-        if (data.user){
-            navigate("/dashboard");
-            const testUser: User | null = JSON.parse(localStorage.getItem('user') || "null");
-            console.log(testUser);
-        }else{
-            alert("credenciais inválidas");
+            sessionStorage.setItem('user', JSON.stringify(data.user));
+            sessionStorage.setItem('token', data.token);
+            // login(data.user);
+            
+            if (data.user){
+                navigate("/dashboard");
+                const testUser: User | null = JSON.parse(sessionStorage.getItem('user') || "null");
+                console.log(testUser);
+            
+            }else{
+                alert("credenciais inválidas");
+            }
+
+        }catch(error){
+            console.error('Erro no login', error);
         }
     };
     
