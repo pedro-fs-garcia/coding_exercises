@@ -21,6 +21,7 @@ function ReaderPage(){
         if (success) {
             alert("Livro emprestado com sucesso!");
             loadBooks();
+            window.location.reload();
         } else {
             alert("Erro ao emprestar o livro.");
         }
