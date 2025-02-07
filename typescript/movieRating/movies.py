@@ -14,8 +14,8 @@ class Movie:
         return f"<Movie(id={self.id}, title={self.title}, director={self.director}, year={self.year}, poster_url={self.poster_url})>"
 
 
-API_KEY = "475851a7b9dae620e187de8a77fbdabc"
-API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NzU4NTFhN2I5ZGFlNjIwZTE4N2RlOGE3N2ZiZGFiYyIsIm5iZiI6MTczNzIxMjUxMS42NjUsInN1YiI6IjY3OGJjMjVmMDhkZDcwOGJiOTZkZTAwNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rabzs1fy3QwieG2IGs9Yh-d1z9DmJguI8rRV2evv770"
+API_KEY = ""
+API_TOKEN = ""
 BASE_URL = "https://api.themoviedb.org/3"
 POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
