@@ -1,5 +1,5 @@
 class User{
-    public id: number|null;
+    public id: number;
     public username: String;
     public password:String;
     public permission: 'user'|'admin';

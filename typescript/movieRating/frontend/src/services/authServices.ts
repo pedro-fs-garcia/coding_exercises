@@ -1,3 +1,4 @@
+import { Navigate, useNavigate } from "react-router-dom";
 
 export async function authLogin(username:String, password:String){
     try{
@@ -63,4 +64,12 @@ export async function authRegister(username:String, password:String){
         alert("falha ao registrar usuário");
     }
     return false;
+}
+
+export function logout(){
+    const navigate = useNavigate();
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    navigate('/');
+    
 }
