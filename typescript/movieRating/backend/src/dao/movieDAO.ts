@@ -6,7 +6,7 @@ export async function getAllMovies():Promise<Movie[]>{
     
     try{
         const [rows]:any = await dbConnection.query(
-            'SELECT * FROM movies'
+            'SELECT * FROM movies ORDER BY RAND () LIMIT 5'
         );
         if (rows && rows.length > 0){
             rows.forEach((row:any) =>{

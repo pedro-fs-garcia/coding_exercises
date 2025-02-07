@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { getUserReviews, Review } from "../services/ratingServices";
+import { postNewEvaluation } from "../services/movieServices";
 
 const UserPage: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]|null>([]);
@@ -24,8 +25,15 @@ const UserPage: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const submitRating = () => {
-
+  const submitRating = async() => {
+    if (selectedReview){
+      const operation = await postNewEvaluation(selectedReview.movie_id, rating);
+      if (operation){
+        setRating(0);
+        setIsModalOpen(false);
+        loadUserRatings();
+      }
+    }
   };
 
   return (
