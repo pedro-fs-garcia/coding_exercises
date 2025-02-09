@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { verifyToken } from "../utils/userToken";
 import { deleteUser, getAllUsers, insertNewUser, registerNewUser, updateUser } from "../dao/userDAO";
 import User from "../models/User";
-import { getAllMovies, searchMovies } from "../dao/movieDAO";
+import { deleteMovie, getAllMovies, searchMovies, updateMovie } from "../dao/movieDAO";
 import { fetchUserReviewList, processRating } from "../dao/ratingDAO";
 
 const apiRouter = express.Router()
@@ -11,11 +11,31 @@ apiRouter.get('/admin/get_all_users',verifyToken, getUsersService);
 apiRouter.post('/admin/create_user', verifyToken, adminCreateNewUser);
 apiRouter.put('/admin/update_user/:user_id', verifyToken, adminUpdateUser);
 apiRouter.delete('/admin/delete_user/:user_id', verifyToken, adminDeleteUser);
+apiRouter.put('/api/admin/update_movie', verifyToken, adminUpdateMovie);
+apiRouter.delete('/api/admin/delete_movie/:movie_id', verifyToken, adminDeleteMovie);
 
 apiRouter.get('/api/movies', verifyToken,getMovies);
 apiRouter.post('/api/movies/post_evaluation', verifyToken, handleEvaluation);
 
 apiRouter.get('/api/get_user_ratings', verifyToken, getUserReviews);
+
+
+async function adminDeleteMovie(req:Request, res:Response){
+    try{
+        const id = Number(req.params.movie_id);
+        const operation = await deleteMovie(id);
+        if (operation){
+            console.log("filme deletado.")
+            res.status(200).json({message:"filme deletado"});
+        }else{
+            console.log("erro ao deletar filme")
+            res.status(500).json({error:"erro ao deletar filme"});
+        }
+    }catch(error){
+        console.error("adminDeleteMovie: error: erro ao deletar usuario");
+        res.status(500).json({error:"Internal server error."});
+    }
+}
 
 async function getUserReviews(req:Request, res:Response){
     try{
@@ -33,6 +53,19 @@ async function getUserReviews(req:Request, res:Response){
     }
 }
 
+async function adminUpdateMovie(req:Request, res:Response){
+    try{
+        const {id, title, director, year, poster} = req.body;
+        const operation = await updateMovie(id, title, director, year, poster);
+        if(operation){
+            res.status(200).json({message:"filme atualizado"});
+        }else{
+            res.status(400).json({error:"filme não pode ser atualizado"});
+        }
+    }catch(error){
+        res.status(500).json({error:"erro inesperado ao atualizar filme"});
+    }
+}
 
 async function getMovies(req:Request, res:Response) {
     try{
@@ -74,7 +107,6 @@ async function handleEvaluation(req:Request, res:Response){
         res.status(500).json({error:"Internal server error."});
     }
 }
-
 
 async function getUsersService(req:Request, res:Response){
     try{

@@ -11,6 +11,12 @@ export interface Review{
     evaluation:number;
 }
 
+
+
+export async function getAllRatings(){
+
+}
+
 export async function getUserReviews(){
     try{
         const token = sessionStorage.getItem('token');

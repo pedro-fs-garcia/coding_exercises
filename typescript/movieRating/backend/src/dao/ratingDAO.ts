@@ -84,3 +84,39 @@ export async function createRating(user_id:number, movie_id:number, evaluation:n
     }
     return false;
 }
+
+export async function getRatingsByMovieId(movie_id:number){
+    let ratingsByMovieId = [];
+    try {
+        const [rows]:any = await dbConnection.query(
+            'SELECT * FROM ratings WHERE movie_id = ?',
+            [movie_id]
+        );
+        logger.info("getRatingsByMovieId: rows: ", rows)
+        if (rows && rows.length > 0){
+            rows.forEach((row:any) => {
+                ratingsByMovieId.push(row.id)
+            });
+        }
+        logger.info("ratingsByMovieId", ratingsByMovieId);
+        return ratingsByMovieId;
+    } catch (error) {
+        logger.error("getRatingsByMovieId: error");
+    }
+    return ratingsByMovieId;
+}
+
+export async function deleteRating(rating_id:number){
+    try{
+        const [rows]:any = await dbConnection.query(
+            'DELETE FROM ratings WHERE id = ?',
+            [rating_id]
+        );
+        if(rows && rows.length > 0){
+            return true;
+        }
+    }catch(error){
+        logger.error("Erro ao deletar rating");
+    }
+    return false;
+}

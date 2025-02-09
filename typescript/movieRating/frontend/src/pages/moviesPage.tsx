@@ -33,6 +33,10 @@ const MoviesPage: React.FC = () => {
     }
   };
 
+  const setFavorite = async (movie:Movie) => {
+    
+  }
+
   useEffect(() => {
     loadMovies()
   }, [search]);
@@ -62,6 +66,12 @@ const MoviesPage: React.FC = () => {
                 className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
               >
                 Avaliar
+              </button>
+              <button
+                onClick = {setFavorite(movie)}
+                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              >
+                Adicionar aos Favoritos
               </button>
             </div>
           </div>

@@ -63,6 +63,9 @@ function AdminPage(){
                 >
                     + Adicionar Usuário
                 </button>
+                <a href="/manage_movies">Manage movies</a>
+
+                <a href="/manage_ratings">Manage ratings</a>
 
                 <table className="w-full border-collapse border border-gray-300">
                     <thead>
