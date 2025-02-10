@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { getUserReviews, Review } from "../services/ratingServices";
+import { Review } from "../services/ratingServices";
 import { deleteFavorite, getFavoriteMovies, getUserFavorites, postNewEvaluation, postNewFavorite } from "../services/movieServices";
 import { useEffect, useState } from "react";
 
@@ -51,7 +51,7 @@ function FavoritesPage(){
       loadFavoritesId();
     }, []);
   
-    const handleEditReview = (review: Review) => {
+    const handleEditReview = (review: FavoriteMovie) => {
       setSelectedReview(review);
       setRating(review.evaluation);
       setIsModalOpen(true);
