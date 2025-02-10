@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Star } from "lucide-react";
-import { getMovieSearch, postNewEvaluation } from "../services/movieServices";
+import { deleteFavorite, getMovieSearch, getUserFavorites, postNewEvaluation, postNewFavorite } from "../services/movieServices";
 import User from "../models/User";
 import Movie from "../models/Movie";
 
@@ -12,6 +12,7 @@ const MoviesPage: React.FC = () => {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [rating, setRating] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [favorites, setFavorites] = useState<number[]>([]);
 
   const loadMovies = async () =>{
     let movieList: Movie[]|null = [];
@@ -21,6 +22,26 @@ const MoviesPage: React.FC = () => {
       movieList = await getMovieSearch(search);
     }
     setMovies(movieList);
+  }
+
+  const loadFavorites = async () => {
+    let favoritesList:number[] = [];
+    favoritesList = await getUserFavorites();
+    setFavorites(favoritesList);
+  }
+
+  const setFavorite = async (movie_id:number) => {
+    const operation = await postNewFavorite(movie_id);
+    if(operation){
+      loadFavorites();
+    }
+  }
+
+  const removeFavorite = async (movieId:number) => {
+    const operation = await deleteFavorite(movieId);
+    if (operation){
+      loadFavorites();
+    }
   }
 
   const submitRating = async () => {
@@ -33,12 +54,9 @@ const MoviesPage: React.FC = () => {
     }
   };
 
-  const setFavorite = async (movie:Movie) => {
-    
-  }
-
   useEffect(() => {
-    loadMovies()
+    loadMovies();
+    loadFavorites();
   }, [search]);
   
 
@@ -67,12 +85,21 @@ const MoviesPage: React.FC = () => {
               >
                 Avaliar
               </button>
-              <button
-                onClick = {setFavorite(movie)}
-                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-              >
-                Adicionar aos Favoritos
-              </button>
+              {favorites.includes(movie.id) ? (
+                <button
+                  onClick={() => removeFavorite(movie.id)}
+                  className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                >
+                  Remover dos Favoritos
+                </button>
+              ) : (
+                <button
+                  onClick={() => setFavorite(movie.id)}
+                  className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                >
+                  Adicionar aos Favoritos
+                </button>
+              )}
             </div>
           </div>
         ))}

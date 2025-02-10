@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { getUserReviews, Review } from "../services/ratingServices";
-import { postNewEvaluation } from "../services/movieServices";
+import { deleteFavorite, getUserFavorites, postNewEvaluation, postNewFavorite } from "../services/movieServices";
 
 const UserPage: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]|null>([]);
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [rating, setRating] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [favorites, setFavorites] = useState<number[]>([]);
 
   const loadUserRatings = async () =>{
     let ratingList: Review[]|null = [];
@@ -15,8 +16,29 @@ const UserPage: React.FC = () => {
     setReviews(ratingList);
   }
 
+  const loadFavorites = async () => {
+    let favoritesList:number[] = [];
+    favoritesList = await getUserFavorites();
+    setFavorites(favoritesList);
+  }
+
+  const setFavorite = async (movie_id:number) => {
+    const operation = await postNewFavorite(movie_id);
+    if(operation){
+      loadFavorites();
+    }
+  }
+
+  const removeFavorite = async (movieId:number) => {
+    const operation = await deleteFavorite(movieId);
+    if (operation){
+      loadFavorites();
+    }
+  }
+
   useEffect(() => {
     loadUserRatings();
+    loadFavorites();
   }, []);
 
   const handleEditReview = (review: Review) => {
@@ -44,7 +66,7 @@ const UserPage: React.FC = () => {
         <a href="/movies"><button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         todos os filmes
         </button></a>
-        <a href="/my_favorites"><button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        <a href="/favorites"><button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
         meus favoritos
         </button></a>
         <div className="space-y-4">
@@ -61,6 +83,21 @@ const UserPage: React.FC = () => {
               >
                 Editar
               </button>
+              {favorites.includes(review.movie_id) ? (
+                <button
+                  onClick={() => removeFavorite(review.movie_id)}
+                  className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                >
+                  Remover dos Favoritos
+                </button>
+              ) : (
+                <button
+                  onClick={() => setFavorite(review.movie_id)}
+                  className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                >
+                  Adicionar aos Favoritos
+                </button>
+              )}
             </div>
           ))}
         </div>

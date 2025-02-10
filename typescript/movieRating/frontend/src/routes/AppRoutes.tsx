@@ -7,6 +7,7 @@ import MoviesPage from "../pages/moviesPage";
 import User from "../models/User";
 import ManageMoviesPage from "../pages/manageMoviesPage";
 import ManageRatingsPage from "../pages/manageRatingsPage";
+import FavoritesPage from "../pages/favoritesPage";
 
 function AppRoutes(){
     const user:User = JSON.parse(sessionStorage.getItem('user')||'null');
@@ -19,6 +20,7 @@ function AppRoutes(){
                 <Route element={<ProtectedRoute/>}>
                     <Route path="/dashboard" element={<DashboardPage/>} />
                     <Route path="/movies" element = {<MoviesPage/>}/>
+                    <Route path="/favorites" element = {<FavoritesPage/>}/>
 
                     {user?.permission === 'admin' && (
                         <>

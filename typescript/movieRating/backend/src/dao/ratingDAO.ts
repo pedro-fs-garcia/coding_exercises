@@ -35,6 +35,45 @@ export async function fetchUserReviewList(userId:number){
     return ratingList;
 }
 
+export async function fetchFavoritesList(userId:number){
+    let favoritesList: any[] = [];
+    try{
+        const [rows]: any = await dbConnection.query(
+            `SELECT 
+            movies.title, 
+            movies.director, 
+            movies.year, 
+            movies.poster, 
+            movies.id AS movie_id, 
+            ratings.evaluation, 
+            ratings.id AS rating_id
+            FROM movies
+            JOIN favorites ON favorites.movie_id = movies.id
+            LEFT JOIN ratings ON ratings.movie_id = movies.id AND ratings.user_id = favorites.user_id
+            WHERE favorites.user_id = ?`,
+            [userId]
+        );
+        if(rows && rows.length > 0){
+            rows.forEach((row:any) => {
+                favoritesList.push({
+                    rating_id: row.rating_id,
+                    movie_id: row.movie_id,
+                    title: row.title,
+                    director: row.director,
+                    year: row.year,
+                    poster: row.poster,
+                    evaluation: row.evaluation
+                })
+            });
+        }
+        return favoritesList;
+    }catch(error){
+        logger.error('fetchFavoritesList: error: erro ao buscar favoriteMovies no banco de dados');
+    }
+    return favoritesList;
+}
+
+
 export async function processRating(user_id:number, movie_id:number, evaluation:number){
     try{
         const [rows]:any = await dbConnection.query(
@@ -101,7 +140,7 @@ export async function getRatingsByMovieId(movie_id:number){
         logger.info("ratingsByMovieId", ratingsByMovieId);
         return ratingsByMovieId;
     } catch (error) {
-        logger.error("getRatingsByMovieId: error");
+        logger.error("getRatingsByMovieId: error", error);
     }
     return ratingsByMovieId;
 }

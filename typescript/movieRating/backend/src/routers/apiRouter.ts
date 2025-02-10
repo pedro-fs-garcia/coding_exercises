@@ -3,7 +3,9 @@ import { verifyToken } from "../utils/userToken";
 import { deleteUser, getAllUsers, insertNewUser, registerNewUser, updateUser } from "../dao/userDAO";
 import User from "../models/User";
 import { deleteMovie, getAllMovies, searchMovies, updateMovie } from "../dao/movieDAO";
-import { fetchUserReviewList, processRating } from "../dao/ratingDAO";
+import { fetchFavoritesList, fetchUserReviewList, processRating } from "../dao/ratingDAO";
+import { deleteFavorite, fetchUserFavorites, insertNewFavorite } from "../dao/favoritesDAO";
+import logger from "../utils/logger";
 
 const apiRouter = express.Router()
 
@@ -19,6 +21,10 @@ apiRouter.post('/api/movies/post_evaluation', verifyToken, handleEvaluation);
 
 apiRouter.get('/api/get_user_ratings', verifyToken, getUserReviews);
 
+apiRouter.get('/api/movies/get_user_favorites', verifyToken, getUserFavorites);
+apiRouter.post('/api/movies/new_favorite', verifyToken, postUserFavorite);
+apiRouter.delete('/api/movies/delete_favorite', verifyToken, removeFavorite);
+apiRouter.get('/api/favorites/get_favorite_movies', verifyToken, getFavoriteMovies);
 
 async function adminDeleteMovie(req:Request, res:Response){
     try{
@@ -50,6 +56,81 @@ async function getUserReviews(req:Request, res:Response){
     }catch(error){
         console.error("erro ao buscar ratings do usuario");
         res.status(500).json({error: 'erro ao buscar ratings do usuario'});
+    }
+}
+
+async function getUserFavorites(req:Request, res:Response){
+    try{
+        const userId = req.user.userId;
+        const favoritesList = await fetchUserFavorites(userId);
+        if (favoritesList == null){
+            res.status(400).json({error:"Failed to get all favorites from user"});
+        }else{
+            res.status(200).json({favoritesList:favoritesList});
+        }
+    }catch(error){
+        console.error("erro ao buscar favoritos do usuario");
+        res.status(500).json({error: 'erro ao buscar favoritos do usuario'});
+    }
+}
+
+async function getFavoriteMovies(req:Request, res:Response){
+    try{
+        const user_id = req.user.userId;
+        const favoritesList = await fetchFavoritesList(user_id);
+        console.log("favoritesLis: ", favoritesList);
+        if (favoritesList == null){
+            res.status(400).json({error:"Failed to get all battles from user"});
+        }else{
+            res.status(200).json({favoriteMovies:favoritesList});
+        }
+    }catch(error){
+        console.error("erro ao buscar favoriteMovies do usuario");
+        res.status(500).json({error: 'erro ao buscar favoriteMovies do usuario'});
+    }
+}
+
+
+async function postUserFavorite(req:Request, res:Response){
+    try{
+        const user_id = req.user.userId;
+        const {movie_id} = req.body;
+        console.log("movieId para favorito: ", movie_id);
+        if(!movie_id){
+            res.status(400).json({error:"Filme não fornecido"});
+            return
+        }
+        const success = await insertNewFavorite(user_id, movie_id);
+        if (success) {
+            console.log("registered new favorite.")
+            res.status(200).json({message:"favorite registered"});
+        }else{
+            res.status(500).json({error:"Server error. Please try again later."});
+        }
+    }catch(error){
+        console.error("Error when creating new favorite", error);
+        res.status(500).json({error:"Internal server error."});
+    }
+}
+
+async function removeFavorite(req:Request, res:Response){
+    try {
+        const user_id = req.user.userId;
+        const {movie_id} = req.body;
+        if(!movie_id){
+            res.status(400).json({error:"Filme não fornecido"});
+            return
+        }
+        const success = await deleteFavorite(movie_id, user_id);
+        if (success) {
+            console.log("favorito foi deletado")
+            res.status(200).json({message:"favorite deletado"});
+        }else{
+            res.status(500).json({error:"Server error. Please try again later."});
+        }
+    } catch (error) {
+        console.error("Error ao deletar favorito", error);
+        res.status(500).json({error:"Internal server error."});
     }
 }
 
