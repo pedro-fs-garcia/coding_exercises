@@ -4,3 +4,4 @@ teste.py
 teste.java
 *.class
 *.exe
+__pycache__/
