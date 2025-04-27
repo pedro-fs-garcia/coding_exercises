@@ -5,3 +5,6 @@ teste.java
 *.class
 *.exe
 __pycache__/
+
+venv/
+.env

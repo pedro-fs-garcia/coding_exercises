@@ -66,25 +66,35 @@ void printVetor(int* vetor, int length){
 }
 
 
-struct Node* criaListaComDuplicatas(int* vetor){
-
+struct Node* criaListaComDuplicatas(int* vetor, int length){
     struct Node* head = malloc(sizeof(struct Node));
     struct Node* current = head;
-
-    current -> data = vetor[0];
-    current -> next = malloc(sizeof(struct Node));
-    current = current -> next;
-    current -> data = vetor[1];
+    for (int i = 0; i<length; i++){
+        if (current -> data){
+            struct Node *newNode = malloc(sizeof(struct Node));
+            newNode -> data = vetor[i];
+            newNode -> next = NULL;
+            current -> next = newNode;
+            current = current -> next;
+        } else {
+            current -> data = vetor[i];
+        }
+    }
 
     return head;
+};
+
+struct Node* removeDuplicatas(struct Node* head){
+    
 };
 
 void printLista(struct Node* head){
     struct Node* current = head;
     while (current != NULL){
-        printf("valor armazenado: %d\n", current -> data);
+        printf("%d, ", current -> data);
         current = current -> next;
     };
+    printf("\n");
 };
 
 void liberaLista(struct Node* head){
@@ -101,7 +111,7 @@ void main(){
     int* vetor = criaVetorComDuplicatas();
     printVetor(vetor, 10);
     
-    struct Node* head = criaListaComDuplicatas(vetor);
+    struct Node* head = criaListaComDuplicatas(vetor, 10);
     printLista(head);
     liberaLista(head);
     free(vetor);
