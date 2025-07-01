@@ -58,7 +58,7 @@ export async function adminCreateNewUser(username:String, password:String, permi
         }
 
     }catch(error){
-        console.error("Erro ao criar usuario como admin")
+        console.error("Erro ao criar usuario como admin", error)
     }
     return false;
 }

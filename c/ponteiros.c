@@ -18,3 +18,6 @@ int main() {
     printf("value at stored address: %d\n", *pAge);
     return 0;
 }
+
+// gcc ponteiros.c -o ponteiros
+// ./ponteiros

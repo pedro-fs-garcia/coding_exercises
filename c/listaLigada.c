@@ -101,5 +101,8 @@ int main() {
     criaLista();
     printf("\n");
     criaListacomWhile(10);
+
+    int *p = malloc(sizeof(int));
+
     return 0;
 }
